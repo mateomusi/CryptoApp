@@ -203,6 +203,7 @@ function App() {
           <input
             type="text"
             name="amountPaid"
+            placeholder="Ingrese el Importe Pagado"
             value={formData.amountPaid}
             onChange={handleInputChange}
           />
