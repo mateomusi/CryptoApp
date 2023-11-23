@@ -85,12 +85,14 @@ function App() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
     // Validaciones simples aquí
-    if (!value.trim()) {
+    if (!value.trim() && name !== "coinValue" && name !== "coinBought") {
       setFormErrors({ ...formErrors, [name]: `¡${name} es obligatorio!` });
     } else {
       setFormErrors({ ...formErrors, [name]: null });
     }
+
     // Validación específica para el campo de valor de la moneda
     if (name === "coinValue" && isNaN(value)) {
       setFormErrors({ ...formErrors, [name]: `¡${name} debe ser un número!` });
@@ -102,8 +104,15 @@ function App() {
 
     // Validaciones finales antes de agregar/editar
     const values = Object.values(formData);
-    const errors = Object.values(formErrors);
-    if (values.some((value) => !value) || errors.some((error) => error)) {
+    const errors = Object.values(formErrors).filter((error) => error !== null);
+
+    // Verificar que existan errores en los campos requeridos (excepto coinValue)
+    const requiredFields = ["date", "amountPaid", "coinBought"];
+    const requiredErrors = requiredFields.some(
+      (field) => !formData[field] || formErrors[field]
+    );
+
+    if (requiredErrors || errors.length > 0) {
       alert("Por favor, completa correctamente todos los campos.");
       return;
     }
