@@ -85,20 +85,17 @@ function App() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-
     // Validaciones simples aquí
-    if (!value.trim() && name !== "coinValue" && name !== "coinBought") {
+    if (!value.trim() && name !== "coinValue") {
       setFormErrors({ ...formErrors, [name]: `¡${name} es obligatorio!` });
     } else {
       setFormErrors({ ...formErrors, [name]: null });
     }
-
     // Validación específica para el campo de valor de la moneda
     if (name === "coinValue" && isNaN(value)) {
       setFormErrors({ ...formErrors, [name]: `¡${name} debe ser un número!` });
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
